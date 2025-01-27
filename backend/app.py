@@ -5,7 +5,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-
+import sys
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -61,7 +62,9 @@ def train_model():
         with open('vectorizer.pkl', 'wb') as vectorizer_file:
             pickle.dump(new_vectorizer, vectorizer_file)
 
-        return jsonify({"message": "Model retrained successfully."})
+        return jsonify({"message": "Model Retrained"}), 200
+        # Restart the server
+        os.execv(sys.executable, ['python'] + sys.argv)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
